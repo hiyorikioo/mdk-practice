@@ -5,6 +5,11 @@ from pathlib import Path
 DB_FILE = Path(__file__).with_name("app.db")
 
 
+def read_line(prompt_text):
+    """input() без пробелов по краям и без BOM (бывает при вводе из PowerShell)."""
+    return input(prompt_text).replace("﻿", "").strip()
+
+
 def get_connection():
     connection = sqlite3.connect(DB_FILE)
     connection.execute(
@@ -30,7 +35,7 @@ def print_tasks(connection):
 
 
 def add_task(connection):
-    new_title = input("Название задачи: ").strip()
+    new_title = read_line("Название задачи: ")
     if not new_title:
         print("Название не может быть пустым.")
         return
@@ -42,7 +47,7 @@ def add_task(connection):
 
 
 def ask_task_id():
-    raw_value = input("Введите id задачи: ").strip()
+    raw_value = read_line("Введите id задачи: ")
     if not raw_value.isdigit():
         print("id должен быть числом.")
         return None
@@ -67,7 +72,7 @@ def remove_task(connection):
     selected_id = ask_task_id()
     if selected_id is None:
         return
-    answer = input(f"Удалить задачу {selected_id}? (y/n): ").strip().lower()
+    answer = read_line(f"Удалить задачу {selected_id}? (y/n): ").lower()
     if answer != "y":
         print("Удаление отменено.")
         return
@@ -100,7 +105,7 @@ def main():
     try:
         while True:
             print(MENU_TEXT)
-            choice = input("Выберите пункт: ").strip()
+            choice = read_line("Выберите пункт: ")
             if choice == "0":
                 print("До свидания!")
                 break
