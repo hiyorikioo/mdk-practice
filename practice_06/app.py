@@ -80,7 +80,13 @@ def task_page():
                 task_list=load_tasks(),
                 error_text="Введите название задачи.",
             ), 400
-        save_task(entered_title)
+        if not save_task(entered_title):
+            # Ошибка базы: изменения уже откатаны, сообщаем пользователю
+            return render_template(
+                "index.html",
+                task_list=load_tasks(),
+                error_text="Не удалось сохранить задачу. Попробуйте ещё раз.",
+            ), 500
         # PRG: после POST перенаправляем на GET, чтобы F5 не добавлял задачу повторно
         return redirect(url_for("task_page"))
 
