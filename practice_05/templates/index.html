@@ -10,6 +10,7 @@
         .empty-note { color: #888; font-style: italic; }
         .add-form { margin-bottom: 16px; }
         .add-form input { padding: 6px; width: 70%; }
+        .error-note { color: #c0392b; }
     </style>
 </head>
 <body>
@@ -19,6 +20,9 @@
         <input type="text" name="title" placeholder="Новая задача" maxlength="200">
         <button type="submit">Добавить</button>
     </form>
+    {% if error_text %}
+        <p class="error-note">{{ error_text }}</p>
+    {% endif %}
     {% if task_list %}
         <ul>
             {% for item in task_list %}

@@ -60,13 +60,19 @@ def save_task(task_title):
 def task_page():
     if request.method == "POST":
         entered_title = request.form.get("title", "").strip()
-        if entered_title:
-            save_task(entered_title)
+        if not entered_title:
+            # Пустой ввод: ничего не сохраняем, показываем страницу с ошибкой
+            return render_template(
+                "index.html",
+                task_list=load_tasks(),
+                error_text="Введите название задачи.",
+            ), 400
+        save_task(entered_title)
         # PRG: после POST перенаправляем на GET, чтобы F5 не добавлял задачу повторно
         return redirect(url_for("task_page"))
 
     task_list = load_tasks()
-    return render_template("index.html", task_list=task_list)
+    return render_template("index.html", task_list=task_list, error_text=None)
 
 
 prepare_database()
