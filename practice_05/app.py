@@ -2,7 +2,7 @@
 import sqlite3
 from pathlib import Path
 
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template, request, url_for
 
 DB_FILE = Path(__file__).with_name("app.db")
 
@@ -47,8 +47,24 @@ def load_tasks():
         connection.close()
 
 
-@web_app.route("/")
+def save_task(task_title):
+    connection = sqlite3.connect(DB_FILE)
+    try:
+        connection.execute("INSERT INTO tasks (title) VALUES (?)", (task_title,))
+        connection.commit()
+    finally:
+        connection.close()
+
+
+@web_app.route("/", methods=["GET", "POST"])
 def task_page():
+    if request.method == "POST":
+        entered_title = request.form.get("title", "").strip()
+        if entered_title:
+            save_task(entered_title)
+        # PRG: после POST перенаправляем на GET, чтобы F5 не добавлял задачу повторно
+        return redirect(url_for("task_page"))
+
     task_list = load_tasks()
     return render_template("index.html", task_list=task_list)
 
