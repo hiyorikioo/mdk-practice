@@ -65,7 +65,7 @@ def task_page():
             return render_template(
                 "index.html",
                 task_list=load_tasks(),
-                error_text="Введите название задачи.",
+                error_text="Название задачи не может быть пустым.",
             ), 400
         save_task(entered_title)
         # PRG: после POST перенаправляем на GET, чтобы F5 не добавлял задачу повторно
