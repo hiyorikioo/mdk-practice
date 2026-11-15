@@ -33,7 +33,7 @@
                         <button type="submit">{{ 'Вернуть' if item.status == 'done' else 'Готово' }}</button>
                     </form>
                     <form method="post" action="{{ url_for('delete_route', task_id=item.id) }}" class="row-form"
-                          onsubmit="return confirm('Удалить задачу «{{ item.title }}»?');">
+                          onsubmit='return confirm({{ ("Удалить задачу «" ~ item.title ~ "»?") | tojson }});'>
                         <button type="submit">Удалить</button>
                     </form>
                 </li>
