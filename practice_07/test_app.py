@@ -52,8 +52,15 @@ def main():
         # Удаление
         client.post(f"/delete/{new_id}")
         check("delete удаляет задачу", all(row[0] != new_id for row in task_rows()))
-        check("delete несуществующей не ломает приложение",
-              client.post("/delete/9999").status_code == 302)
+        response = client.post("/delete/9999")
+        check("delete несуществующей -> 404 и сообщение",
+              response.status_code == 404
+              and "Задача #9999 не найдена." in response.get_data(as_text=True))
+        response = client.post("/toggle/9999")
+        check("toggle несуществующей -> 404 и сообщение",
+              response.status_code == 404
+              and "Задача #9999 не найдена." in response.get_data(as_text=True))
+        check("GET /toggle/abc -> 404", client.get("/toggle/abc").status_code == 404)
 
         # Действия только через POST
         check("GET /toggle/1 -> 405", client.get("/toggle/1").status_code == 405)

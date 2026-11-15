@@ -104,15 +104,26 @@ def delete_task_by_id(task_id):
         connection.close()
 
 
+def show_not_found(task_id):
+    """Страница со списком и сообщением, что задачи с таким id нет."""
+    return render_template(
+        "index.html",
+        task_list=fetch_all_tasks(),
+        error_text=f"Задача #{task_id} не найдена.",
+    ), 404
+
+
 @web_app.route("/delete/<int:task_id>", methods=["POST"])
 def delete_route(task_id):
-    delete_task_by_id(task_id)
+    if delete_task_by_id(task_id) == 0:
+        return show_not_found(task_id)
     return redirect(url_for("task_page"))
 
 
 @web_app.route("/toggle/<int:task_id>", methods=["POST"])
 def toggle_route(task_id):
-    toggle_task_status(task_id)
+    if toggle_task_status(task_id) == 0:
+        return show_not_found(task_id)
     return redirect(url_for("task_page"))
 
 
