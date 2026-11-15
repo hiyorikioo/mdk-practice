@@ -16,14 +16,14 @@
         <ul>
             {% for item in task_list %}
                 {% if item.status == 'done' %}
-                    <li class="finished">{{ item.title }}</li>
+                    <li class="finished">#{{ item.id }} {{ item.title }} ({{ item.status }})</li>
                 {% else %}
-                    <li>{{ item.title }}</li>
+                    <li>#{{ item.id }} {{ item.title }} ({{ item.status }})</li>
                 {% endif %}
             {% endfor %}
         </ul>
     {% else %}
-        <p class="empty-note">Задач пока нет.</p>
+        <p class="empty-note">Список пуст.</p>
     {% endif %}
 </body>
 </html>
