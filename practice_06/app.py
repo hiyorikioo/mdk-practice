@@ -78,7 +78,7 @@ def task_page():
             return render_template(
                 "index.html",
                 task_list=load_tasks(),
-                error_text="Введите название задачи.",
+                error_text="Название задачи не может быть пустым.",
             ), 400
         if not save_task(entered_title):
             # Ошибка базы: изменения уже откатаны, сообщаем пользователю
