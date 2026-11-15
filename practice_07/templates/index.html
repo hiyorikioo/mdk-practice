@@ -11,6 +11,7 @@
         .add-form { margin-bottom: 16px; }
         .add-form input { padding: 6px; width: 70%; }
         .error-note { color: #c0392b; }
+        .row-form { display: inline; margin-left: 8px; }
     </style>
 </head>
 <body>
@@ -26,11 +27,12 @@
     {% if task_list %}
         <ul>
             {% for item in task_list %}
-                {% if item.status == 'done' %}
-                    <li class="finished">{{ item.title }}</li>
-                {% else %}
-                    <li>{{ item.title }}</li>
-                {% endif %}
+                <li>
+                    <span class="{{ 'finished' if item.status == 'done' else '' }}">{{ item.title }}</span>
+                    <form method="post" action="{{ url_for('toggle_route', task_id=item.id) }}" class="row-form">
+                        <button type="submit">{{ 'Вернуть' if item.status == 'done' else 'Готово' }}</button>
+                    </form>
+                </li>
             {% endfor %}
         </ul>
     {% else %}
