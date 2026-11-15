@@ -89,6 +89,27 @@ def toggle_task_status(task_id):
         connection.close()
 
 
+def delete_task_by_id(task_id):
+    """Удаляет задачу. Возвращает число удалённых строк (0 - не найдена)."""
+    connection = sqlite3.connect(DB_FILE)
+    try:
+        db_cursor = connection.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+        connection.commit()
+        return db_cursor.rowcount
+    except sqlite3.Error as db_error:
+        connection.rollback()
+        print("Ошибка удаления задачи:", db_error)
+        return 0
+    finally:
+        connection.close()
+
+
+@web_app.route("/delete/<int:task_id>", methods=["POST"])
+def delete_route(task_id):
+    delete_task_by_id(task_id)
+    return redirect(url_for("task_page"))
+
+
 @web_app.route("/toggle/<int:task_id>", methods=["POST"])
 def toggle_route(task_id):
     toggle_task_status(task_id)
