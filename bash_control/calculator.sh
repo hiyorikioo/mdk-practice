@@ -7,7 +7,7 @@ is_integer() {
 
 read -p "Введите первое число: " first_num
 read -p "Введите второе число: " second_num
-read -p "Введите операцию (+ - * /): " operation
+read -p "Введите операцию (+, -, *, /): " operation
 
 if ! is_integer "$first_num" || ! is_integer "$second_num"; then
     echo "Ошибка: нужно вводить целые числа."
