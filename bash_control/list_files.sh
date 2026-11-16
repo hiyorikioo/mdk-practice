@@ -14,19 +14,19 @@ if [ ! -d "$target_dir" ]; then
     exit 1
 fi
 
-echo "Текстовые файлы в каталоге '$target_dir':"
+echo "Найдены .txt файлы в $target_dir:"
 
 found_count=0
 for txt_file in "$target_dir"/*.txt; do
     # Если файлов нет, шаблон *.txt остаётся как есть — пропускаем
     [ -f "$txt_file" ] || continue
-    file_size=$(wc -c < "$txt_file")
-    echo "  $(basename "$txt_file") — ${file_size} байт"
+    file_size=$(du -h --apparent-size "$txt_file" | cut -f1)
+    echo "- $(basename "$txt_file") ($file_size)"
     found_count=$((found_count + 1))
 done
 
 if [ "$found_count" -eq 0 ]; then
-    echo "  .txt-файлов не найдено."
+    echo "- .txt файлов не найдено"
 else
     echo "Всего файлов: $found_count"
 fi
