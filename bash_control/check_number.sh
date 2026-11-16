@@ -15,9 +15,9 @@ if ! [[ "$input_value" =~ ^-?[0-9]+$ ]]; then
 fi
 
 if [ "$input_value" -gt 0 ]; then
-    echo "Число $input_value положительное."
+    echo "Число $input_value является положительным"
 elif [ "$input_value" -lt 0 ]; then
-    echo "Число $input_value отрицательное."
+    echo "Число $input_value является отрицательным"
 else
-    echo "Число равно нулю."
+    echo "Число $input_value является нулём"
 fi
