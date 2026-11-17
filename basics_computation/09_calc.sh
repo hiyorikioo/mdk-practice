@@ -3,7 +3,7 @@
 
 read -p "Первое число: " operand_one
 read -p "Второе число: " operand_two
-read -p "Операция (+, -, *, /): " chosen_op
+read -p "Операция (+, -, *, /, %): " chosen_op
 
 case "$chosen_op" in
     +)
@@ -20,6 +20,14 @@ case "$chosen_op" in
             echo "Ошибка: деление на ноль"
         else
             echo "$operand_one / $operand_two = $((operand_one / operand_two))"
+        fi
+        ;;
+    %)
+        # Задание 4: остаток от деления (на ноль тоже нельзя)
+        if [ "$operand_two" -eq 0 ]; then
+            echo "Ошибка: деление на ноль"
+        else
+            echo "$operand_one % $operand_two = $((operand_one % operand_two))"
         fi
         ;;
     *)
