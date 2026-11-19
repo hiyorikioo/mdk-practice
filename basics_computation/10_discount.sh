@@ -11,3 +11,8 @@ echo "---"
 echo "Исходная цена: $base_price руб."
 echo "Скидка $discount_percent%: $discount_rub руб."
 echo "Итого к оплате: $price_to_pay руб."
+
+# Задание 5: предупреждение о слишком большой скидке
+if [ "$discount_percent" -gt 50 ]; then
+    echo "Внимание: скидка больше 50%! Проверьте, нет ли ошибки."
+fi
