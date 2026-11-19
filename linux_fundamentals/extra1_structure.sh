@@ -18,5 +18,5 @@ cd "$base_dir" || exit 1
 mkdir -p myproject/{src/{main,test},docs,logs,backup}
 
 echo "Создана структура:"
-# tree в Git Bash нет, поэтому выводим через find
+# выводим все папки через find, по алфавиту
 find myproject -type d | sort

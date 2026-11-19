@@ -29,13 +29,8 @@ echo "=== Содержимое лога ==="
 cat "$log_file"
 
 # 6. Проверка сети: 2 пакета до DNS Google
-# в Windows у ping ключ -n, в Linux -c
 echo "=== Проверка сети ==="
-if [ "$(uname -o)" = "Msys" ]; then
-    ping -n 2 8.8.8.8 > /dev/null 2>&1
-else
-    ping -c 2 8.8.8.8 > /dev/null 2>&1
-fi
+ping -n 2 8.8.8.8 > /dev/null 2>&1
 # $? — код завершения последней команды: 0 значит успех
 if [ $? -eq 0 ]; then
     echo "Сеть доступна"
@@ -43,13 +38,8 @@ else
     echo "Сеть недоступна"
 fi
 
-# 7. Свободное место на диске
-# /home есть в Linux; в Git Bash смотрим диск домашней папки
+# 7. Свободное место на диске с домашней папкой
 echo "=== Свободное место ==="
-if [ -d /home ] && [ "$(uname -o)" != "Msys" ]; then
-    df -h /home
-else
-    df -h ~
-fi
+df -h ~
 
 echo "=== Готово! ==="
